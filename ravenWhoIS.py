@@ -7,7 +7,6 @@ import argparse
 
 def banner():
     ban = '''
-
 ╭━━━╮╱╱╱╱╱╱╱╱╱╱╱╭╮╭╮╭┳╮╱╱╱╱╭━━┳━━━╮
 ┃╭━╮┃╱╱╱╱╱╱╱╱╱╱╱┃┃┃┃┃┃┃╱╱╱╱╰┫┣┫╭━╮┃
 ┃╰━╯┣━━┳╮╭┳━━┳━╮┃┃┃┃┃┃╰━┳━━╮┃┃┃╰━━╮
@@ -17,8 +16,9 @@ def banner():
 
 Author: Nitin Choudhury
 Version: 0.1.0
-    
     '''
+
+    print(ban)
 
 
 class WhoIS:
@@ -85,22 +85,27 @@ class WhoIS:
 def printWhoIS(DOMAIN):
     whois = WhoIS(DOMAIN)
 
-    data = whois.getWhoIS_from_pkg()
-    if not data:
+    try:
         data = whois.getWhoIS_from_web()
+    except:
+        data = whois.getWhoIS_from_pkg()
 
-    for key in data.keys():
+    if data:
+        for key in data.keys():
 
-        if type(data[key]) in [list, set]:
-            for obj in data[key]:
-                print(f"{key}:{obj}")
+            if type(data[key]) in [list, set]:
+                for obj in data[key]:
+                    print(f"{key}:{obj}")
 
-        else:
-            print(f"{key}:{data[key]}")
+            else:
+                print(f"{key}:{data[key]}")
 
+    else:
+        print(None)
 
 
 if __name__ == '__main__':
+    banner()
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
